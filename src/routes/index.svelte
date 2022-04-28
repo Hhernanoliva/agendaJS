@@ -1,35 +1,47 @@
 <script>
-    import agenda from './contactos.json';
+    import { addContact, agenda } from './store';
 
-    let contactos = agenda;
+    let contactos = "";
 
-    $: contactos
+    const addTo = () => {
+        addContact(cN, cE);
+        
+        console.log(contactos, cN, cE)
+    }
 
-    let contactName
-    let contactEmail 
+    let cN;
+    let cE;
 
-
-    const addContact = (name, email) => {
-        const contact = {
-            name,
-            email
-        }
-        contactos.push(contact)
-    };
+    // class User {
+    //     constructor (name, email) {
+    //         this.name = name;
+    //         this.email = email;
+    //     }
+    // }
+    // const addContact = function(n, e) {
+    //     agenda.push(new User(n, e))
+    //     console.log(agenda)
+    // };
     
 </script>
 
 
 <div class="container flex justify-center items-center mt-10 flex-col w-full">
     <div class="text-xl">
-        {#each contactos as {name, email}}
+        {#each $agenda as {name, email}}
              <h2>{name}</h2>
              <p>{email}</p>   
         {/each}
     </div>
 
-    <input placeholder="Name" bind:value={contactName}>
-    <input placeholder="Email" bind:value={contactEmail}>
-    <button on:click={addContact({contactName}, {contactEmail}, console.log(contactos))}> Click</button>
+
+    <form on:submit|preventDefault={addTo}>
+        <input placeholder="Name" bind:value={cN}>
+        <input placeholder="Email" bind:value={cE}>
+        <button type="submit">
+            Agregar
+        </button>
+    </form>
+
     
 </div>
